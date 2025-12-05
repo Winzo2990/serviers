@@ -4,7 +4,7 @@ FROM debian:12
 RUN apt-get update && apt-get install -y curl wget tar openssl unzip
 
 # Install PufferPanel
-RUN wget https://github.com/PufferPanel/PufferPanel/releases/download/v2.6.0/pufferpanel-2.6.0-linux-amd64.tar.gz \
+RUN wget https://github.com/PufferPanel/PufferPanel/releases/download/v2.7.5/pufferpanel-2.7.5-linux-amd64.tar.gz \
     && tar -xzf pufferpanel-2.6.0-linux-amd64.tar.gz \
     && mv pufferpanel /usr/local/bin/pufferpanel
 
