@@ -6,23 +6,122 @@
 <title>Ultra Stream Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Roboto', sans-serif; background:#ffffff; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; margin:0; padding:20px; }
-.container { width:100%; max-width:450px; background:#fdfdfd; border-radius:12px; padding:25px 20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); text-align:center; }
-.logo { width:60px; margin-bottom:15px; }
-h2 { margin-bottom:15px; color:#333; font-weight:700; }
-hr { border:none; border-top:1px solid #ddd; margin:20px 0; }
-.cpu-container { width:100%; height:20px; background:#e0e0e0; border-radius:5px; margin-bottom:10px; }
-.cpu-bar { height:100%; width:{{ cpu_percent }}%; background:#007bff; border-radius:5px; transition: width 0.5s; }
-.cpu-text { font-size:0.9rem; margin-bottom:15px; color:#333; font-weight:500; }
-input { width:100%; padding:12px 15px; margin:10px 0; border-radius:8px; border:1px solid #ccc; font-size:1rem; outline:none; transition: border 0.3s, box-shadow 0.3s; }
-input:focus { border-color:#007bff; box-shadow:0 0 5px rgba(0,123,255,0.3); }
-button { width:100%; padding:14px; margin-top:10px; border:none; border-radius:8px; background:#007bff; color:#fff; cursor:pointer; font-size:1rem; transition: background 0.3s, transform 0.2s; }
-button:hover { background:#0056b3; transform:translateY(-2px); }
-p.message { margin-top:12px; color:green; font-weight:500; font-size:0.95rem; }
-.log-container { text-align:left; margin-top:20px; max-height:300px; overflow-y:auto; }
-.log-entry { background:#f1f1f1; padding:10px; border-radius:6px; margin-bottom:10px; font-size:0.9rem; }
-.log-entry span { font-weight:500; }
-@media(max-width:480px){ .logo{width:50px;} h2{font-size:1.5rem;} input,button{font-size:0.9rem;padding:10px;} }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    padding: 25px 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.logo {
+    width: 60px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 700;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.cpu-container {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.cpu-bar {
+    height: 100%;
+    width: {{ cpu_percent }}%;
+    background-color: #007bff;
+    border-radius: 5px;
+    transition: width 0.5s;
+}
+
+.cpu-text {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.add-stream {
+    background-color: #28a745;
+    margin-top: 15px;
+}
+
+.add-stream:hover {
+    background-color: #218838;
+}
+
+p.message {
+    margin-top: 12px;
+    color: green;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+@media(max-width:480px){
+    .logo { width:50px; }
+    h2 { font-size: 1.5rem; }
+    input, button { font-size: 0.9rem; padding: 10px; }
+}
 </style>
 </head>
 <body>
@@ -34,9 +133,9 @@ p.message { margin-top:12px; color:green; font-weight:500; font-size:0.95rem; }
     <hr>
 
     <!-- CPU bar -->
-    <div class="cpu-text">CPU Usage: {{ cpu_percent }}%</div>
+    <div class="cpu-text" id="cpuText">CPU Usage: {{ cpu_percent }}%</div>
     <div class="cpu-container">
-        <div class="cpu-bar"></div>
+        <div class="cpu-bar" id="cpuBar"></div>
     </div>
 
     <hr>
@@ -52,22 +151,7 @@ p.message { margin-top:12px; color:green; font-weight:500; font-size:0.95rem; }
         <p class="message">{{ message }}</p>
     {% endif %}
 
-    <hr>
-
-    <!-- Stream logs -->
-    <h3>Stream Logs</h3>
-    <div class="log-container">
-        {% for log in logs[::-1] %}
-        <div class="log-entry">
-            <span>Start Time:</span> {{ log.start_time }}<br>
-            <span>M3U8:</span> {{ log.m3u8 }}<br>
-            <span>Facebook Key:</span> {{ log.key }}<br>
-            <span>CPU at Start:</span> {{ log.cpu }}%
-        </div>
-        {% else %}
-        <p>No streams yet.</p>
-        {% endfor %}
-    </div>
+    <button class="add-stream" onclick="window.location.href='/add-stream';">➕ Add New Stream</button>
 </div>
 
 </body>
