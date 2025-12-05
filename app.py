@@ -27,7 +27,7 @@ def index():
     cpu_percent = psutil.cpu_percent(interval=1)
     if request.method == "POST":
         return redirect(url_for("add_stream"))
-    return render_template("index.html", cpu_percent=cpu_percent, message="")
+    return render_template("add_stream.html", cpu_percent=cpu_percent, message="")
 
 @app.route("/add", methods=["GET", "POST"])
 def add_stream():
