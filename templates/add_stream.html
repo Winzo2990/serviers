@@ -121,6 +121,110 @@ p.message {
         <button type="submit">🚀 Start Stream</button>
     </form>
 
+    <button class="add-stream" onclick="window.location.href='/add-stream';">➕ Add New Stream</button>
+</div>
+
+<script>
+// CPU bar simulation
+function updateCPU() {
+    const cpuBar = document.getElementById('cpuBar');
+    const cpuText = document.getElementById('cpuText');
+    const cpuPercent = Math.floor(Math.random() * 101); // fake CPU usage
+    cpuBar.style.width = cpuPercent + '%';
+    cpuText.textContent = 'CPU Usage: ' + cpuPercent + '%';
+}
+setInterval(updateCPU, 1500);
+updateCPU();
+</script>
+
+</body>
+</html>}
+
+/* CPU bar */
+.cpu-container {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.cpu-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #007bff;
+    transition: width 0.5s;
+}
+
+.cpu-text {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Form inputs */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.add-stream {
+    background-color: #28a745;
+    margin-top: 15px;
+}
+
+p.message {
+    margin-top: 10px;
+    color: green;
+}
+
+@media(max-width:480px){
+    .logo { width: 40px; }
+    h2 { font-size: 1.5rem; }
+    input, button { font-size: 0.9rem; padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Logo" class="logo">
+    <h2>Ultra Stream Panel</h2>
+
+    <!-- CPU bar -->
+    <div class="cpu-text" id="cpuText">CPU Usage: 0%</div>
+    <div class="cpu-container">
+        <div class="cpu-bar" id="cpuBar"></div>
+    </div>
+
+    <!-- Stream form -->
+    <form method="POST">
+        <input type="text" name="m3u8" placeholder="M3U8 Link" required>
+        <input type="text" name="key" placeholder="Facebook Stream Key" required>
+        <button type="submit">🚀 Start Stream</button>
+    </form>
+
     {% if message %}
         <p class="message">{{ message }}</p>
     {% endif %}
