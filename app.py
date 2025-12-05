@@ -1,50 +1,35 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, jsonify
 import subprocess
-import os
 
 app = Flask(__name__)
-app.secret_key = "WXCVBN1234"   # غيره
 
-PASSWORD = "1234"  # كلمة المرور للدخول للشيل
+# أوامر مسموحة فقط (للحماية)
+ALLOWED_CMDS = [
+    "ls", "pwd", "whoami", "uname", "df -h", "uptime",
+    "cat", "id", "ps", "date"
+]
 
-command_logs = []
+@app.route("/")
+def index():
+    return render_template("terminal.html")
 
-@app.route("/", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        if request.form.get("password") == PASSWORD:
-            session["auth"] = True
-            return redirect("/shell")
-    return render_template("login.html")
+@app.route("/run", methods=["POST"])
+def run():
+    cmd = request.json.get("cmd", "").strip()
 
+    # منع الأوامر الخطيرة مثل rm أو shutdown
+    dangerous = ["rm", "shutdown", "reboot", "mv", "kill", "nano", "vi", "wget", "curl"]
+    if any(cmd.startswith(d) for d in dangerous):
+        return jsonify({"output": "❌ Command not allowed for safety."})
 
-@app.route("/shell", methods=["GET", "POST"])
-def shell():
-    if "auth" not in session:
-        return redirect("/")
+    # تنفيذ الأمر
+    try:
+        result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, text=True)
+    except Exception as e:
+        result = str(e)
 
-    output = ""
-    if request.method == "POST":
-        command = request.form.get("command")
-
-        try:
-            result = subprocess.check_output(
-                command, shell=True, stderr=subprocess.STDOUT, text=True
-            )
-            output = result
-        except subprocess.CalledProcessError as e:
-            output = e.output
-
-        command_logs.append({"cmd": command, "out": output})
-
-    return render_template("shell.html", output=output, logs=command_logs)
-
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
+    return jsonify({"output": result})
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000) 
