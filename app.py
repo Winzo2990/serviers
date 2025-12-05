@@ -26,7 +26,7 @@ def index():
         message = f"Stream started at {start_time}"
 
     cpu_percent = psutil.cpu_percent(interval=1)
-    return render_template('index.html', cpu_percent=cpu_percent, message=message, logs=stream_logs)
+    return render_template('add_stream.html', cpu_percent=cpu_percent, message=message, logs=stream_logs)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
