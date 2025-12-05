@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            background: #f8f9fa;
             margin: 0;
             padding: 0;
             text-align: center;
@@ -20,6 +20,7 @@
             color: white;
             font-size: 26px;
             font-weight: bold;
+            border-bottom: 4px solid #3367D6;
         }
 
         .container {
@@ -35,6 +36,74 @@
             margin: 10px 0;
             border-radius: 10px;
             border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background: #4285F4;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #3367D6;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cpu-box {
+            background: #fff3cd;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Stream Panel – لوحة التحكم
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>بدء بث جديد</h2>
+
+        <form method="POST" action="/start">
+            <input type="text" name="m3u8" placeholder="رابط m3u8" required>
+            <input type="text" name="rtmps" placeholder="رابط RTMPS" required>
+            <button type="submit">بدء البث</button>
+        </form>
+    </div>
+
+    <div class="cpu-box">
+        🔥 استخدام CPU الآن: {{ cpu_percent }}%
+    </div>
+
+    {% if message %}
+    <div class="card">
+        <p>{{ message }}</p>
+    </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>            border: 1px solid #ccc;
             font-size: 16px;
         }
 
