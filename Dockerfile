@@ -1,21 +1,14 @@
 FROM debian:12
 
 # Install dependencies
-RUN apt-get update && apt-get install -y curl wget tar openssl unzip
+RUN apt-get update && apt-get install -y curl bash
 
-# Install PufferPanel
-RUN wget https://github.com/PufferPanel/PufferPanel/releases/download/v2.7.5/pufferpanel-2.7.5-linux-amd64.tar.gz \
-    && tar -xzf pufferpanel-2.6.0-linux-amd64.tar.gz \
-    && mv pufferpanel /usr/local/bin/pufferpanel
+# Download sshx
+RUN curl -sSf https://sshx.io/get | sh
 
-# Create required folders
-RUN mkdir -p /etc/pufferpanel /var/lib/pufferpanel
-
-# Copy default config
-RUN pufferpanel --config /etc/pufferpanel/config.json
-
-# Expose port
+# Expose port for Railway
+ENV PORT=8080
 EXPOSE 8080
 
-# Run panel
-CMD ["pufferpanel", "--config", "/etc/pufferpanel/config.json"]
+# Start sshx server on Railway assigned PORT
+CMD ["/bin/bash", "-c", "sshx-server --port $PORT"]
