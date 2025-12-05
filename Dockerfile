@@ -3,12 +3,12 @@ FROM debian:12
 # Install dependencies
 RUN apt-get update && apt-get install -y curl bash
 
-# Download sshx
+# Download SSHX binary
 RUN curl -sSf https://sshx.io/get | sh
 
-# Expose port for Railway
+# Railway will assign a port using $PORT
 ENV PORT=8080
 EXPOSE 8080
 
-# Start sshx server on Railway assigned PORT
-CMD ["/bin/bash", "-c", "sshx-server --port $PORT"]
+# Run sshx on Railway port
+CMD ["/bin/bash", "-c", "sshx --port $PORT"]
