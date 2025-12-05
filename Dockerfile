@@ -1,29 +1,21 @@
-# Use a base image that supports systemd, for example, Ubuntu
+FROM debian:12
 
-FROM ubuntu:20.04
+# Install dependencies
+RUN apt-get update && apt-get install -y curl wget tar openssl unzip
 
+# Install PufferPanel
+RUN wget https://github.com/PufferPanel/PufferPanel/releases/download/v2.6.0/pufferpanel-2.6.0-linux-amd64.tar.gz \
+    && tar -xzf pufferpanel-2.6.0-linux-amd64.tar.gz \
+    && mv pufferpanel /usr/local/bin/pufferpanel
 
+# Create required folders
+RUN mkdir -p /etc/pufferpanel /var/lib/pufferpanel
 
-# Install necessary packages
+# Copy default config
+RUN pufferpanel --config /etc/pufferpanel/config.json
 
-RUN apt-get update && \
+# Expose port
+EXPOSE 8080
 
-apt-get install -y shellinabox && \
-
-apt-get install -y systemd && \
-
-apt-get clean && \
-
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN echo 'root:root' | chpasswd
-
-# Expose the web-based terminal port
-
-EXPOSE 4200
-
-
-
-# Start shellinabox
-
-CMD ["/usr/bin/shellinaboxd", "-t", "-s", "/:LOGIN"]
+# Run panel
+CMD ["pufferpanel", "--config", "/etc/pufferpanel/config.json"]
