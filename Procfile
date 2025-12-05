@@ -1,2 +1,2 @@
-web: python app.py
-web: python3 app.py
+web: python server.py
+web: python3 server.py
