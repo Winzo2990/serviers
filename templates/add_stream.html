@@ -6,9 +6,7 @@
 <title>Ultra Stream Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* Reset */
 * { box-sizing: border-box; margin:0; padding:0; }
-
 body {
     font-family: 'Roboto', sans-serif;
     background: #f0f2f5;
@@ -19,7 +17,6 @@ body {
     padding: 20px;
 }
 
-/* الحاوية */
 .container {
     width: 100%;
     max-width: 400px;
@@ -44,6 +41,27 @@ h2 {
     color: #333;
 }
 
+/* شريط CPU */
+.cpu-container {
+    width: 100%;
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    margin-bottom: 10px;
+}
+.cpu-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #1a73e8;
+    transition: width 0.5s ease;
+}
+.cpu-text {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    color: #555;
+}
+
 /* مدخلات النص */
 input {
     width:100%;
@@ -60,42 +78,21 @@ button {
     padding:14px;
     margin-top:10px;
     border:none;
-    border-radius:8px;
+    border-radius:10px;
     font-size:1.1rem;
-    background-color:#1a73e8;
+    background-color:#0b3d91;
     color:white;
     cursor:pointer;
     transition:0.3s;
 }
 button:hover {
-    background-color:#155ab6;
+    background-color:#082a63;
 }
 
 /* زر إضافة بث */
 .add-stream {
     margin-top:15px;
     background-color:#34a853;
-}
-
-/* شريط CPU */
-.cpu-container {
-    width:100%;
-    background: #eee;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 20px 0 10px 0;
-    height: 20px;
-}
-.cpu-bar {
-    height:100%;
-    width:0%;
-    background-color:#1a73e8;
-    transition: width 0.5s ease;
-}
-.cpu-text {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-    color: #555;
 }
 
 /* الرسائل */
@@ -108,8 +105,8 @@ p.message {
 /* Responsive */
 @media(max-width:480px){
     h2{font-size:1.5rem;}
-    input, button{font-size:1rem; padding:10px;}
     .logo{width:40px;}
+    input, button{font-size:1rem;padding:10px;}
 }
 </style>
 </head>
@@ -119,271 +116,13 @@ p.message {
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo" alt="Logo">
     <h2>Ultra Stream Panel</h2>
 
-    <!-- شريط CPU بسيط -->
+    <!-- شريط CPU -->
     <div class="cpu-text" id="cpuText">استخدام CPU: 0%</div>
     <div class="cpu-container">
         <div class="cpu-bar" id="cpuBar"></div>
     </div>
 
-    <!-- النموذج -->
-    <form method="POST">
-        <input type="text" name="m3u8" placeholder="رابط M3U8" required>
-        <input type="text" name="key" placeholder="Facebook Stream Key" required>
-        <button type="submit">🚀 بدء البث</button>
-    </form>
-
-    {% if message %}<p class="message">{{ message }}</p>{% endif %}
-
-    <!-- زر إضافة بث -->
-    <button class="add-stream" onclick="window.location.href='/add-stream';">➕ إضافة بث جديد</button>
-</div>
-
-<script>
-// محاكاة CPU حي (يمكن تعديلها لبيانات حقيقية من السيرفر)
-function updateCPU() {
-    const cpuBar = document.getElementById('cpuBar');
-    const cpuText = document.getElementById('cpuText');
-    const cpuPercent = Math.floor(Math.random() * 101); // رقم وهمي بين 0-100%
-    cpuBar.style.width = cpuPercent + '%';
-    cpuText.textContent = 'استخدام CPU: ' + cpuPercent + '%';
-}
-setInterval(updateCPU, 1500); // تحديث كل 1.5 ثانية
-updateCPU();
-</script>
-
-</body>
-</html>}
-
-/* الشعار */
-.logo {
-    width: 60px;
-    margin-bottom: 15px;
-    transition: transform 0.5s;
-}
-.logo:hover { transform: rotate(20deg) scale(1.1); }
-
-/* العنوان */
-h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #ffd700;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
-}
-
-/* مدخلات النص */
-input {
-    width:100%;
-    padding:14px 18px;
-    margin:12px 0;
-    border-radius: 15px;
-    border:none;
-    outline:none;
-    font-size:1rem;
-    background: rgba(255,255,255,0.1);
-    color:#fff;
-    backdrop-filter: blur(5px);
-}
-input::placeholder { color:#ddd; }
-
-/* الأزرار */
-button {
-    width:100%;
-    padding:16px;
-    margin-top:15px;
-    border:none;
-    border-radius:15px;
-    font-size:1.2rem;
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
-    color:#fff;
-    cursor:pointer;
-    transition:0.4s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-button:hover {
-    transform: translateY(-3px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.5);
-}
-
-/* زر إضافة بث */
-.add-stream {
-    margin-top:20px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    color:#fff;
-    font-weight:700;
-    font-size:1.1rem;
-    box-shadow:0 6px 20px rgba(0,0,0,0.3);
-}
-.add-stream:hover {
-    transform: translateY(-3px) scale(1.05);
-}
-
-/* شريط CPU */
-.cpu-container {
-    width:100%;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 20px 0;
-    height: 25px;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-}
-.cpu-bar {
-    height:100%;
-    width:0%;
-    background: linear-gradient(90deg, #00ff99, #00bfa5);
-    transition: width 0.5s ease;
-}
-.cpu-text {
-    margin-top:5px;
-    font-weight:500;
-    color:#00ff99;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-}
-
-/* الرسائل */
-p.message { color:#fffa65; text-shadow:1px 1px 5px rgba(0,0,0,0.5); margin-top:15px; }
-
-/* Responsive */
-@media(max-width:480px){
-    h2{font-size:1.6rem;}
-    input, button{font-size:1rem;padding:12px;}
-    .logo{width:50px;}
-}
-</style>
-</head>
-<body>
-
-<div class="container">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo" alt="Logo">
-    <h2>Ultra Stream Panel</h2>
-
-    <!-- شريط CPU حي -->
-    <div class="cpu-container">
-        <div class="cpu-bar" id="cpuBar"></div>
-    </div>
-    <div class="cpu-text" id="cpuText">استخدام CPU: 0%</div>
-
-    <!-- النموذج -->
-    <form method="POST">
-        <input type="text" name="m3u8" placeholder="رابط M3U8" required>
-        <input type="text" name="key" placeholder="Facebook Stream Key" required>
-        <button type="submit">🚀 بدء البث</button>
-    </form>
-
-    {% if message %}<p class="message">{{ message }}</p>{% endif %}
-
-    <!-- زر إضافة بث -->
-    <button class="add-stream" onclick="window.location.href='/add-stream';">➕ إضافة بث جديد</button>
-</div>
-
-<script>
-// محاكاة CPU حي (يمكن تعديلها لبيانات حقيقية من السيرفر)
-function updateCPU() {
-    const cpuBar = document.getElementById('cpuBar');
-    const cpuText = document.getElementById('cpuText');
-    const cpuPercent = Math.floor(Math.random() * 101); // رقم وهمي بين 0-100%
-    cpuBar.style.width = cpuPercent + '%';
-    cpuText.textContent = 'استخدام CPU: ' + cpuPercent + '%';
-}
-setInterval(updateCPU, 1500); // تحديث كل 1.5 ثانية
-updateCPU();
-</script>
-
-</body>
-</html>    margin-bottom: 15px;
-    transition: transform 0.5s;
-}
-.logo:hover { transform: rotate(20deg) scale(1.1); }
-h2 {
-    font-size:2rem;
-    font-weight:700;
-    margin-bottom: 25px;
-    color: #ffdd00;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
-}
-input {
-    width:100%;
-    padding:14px 18px;
-    margin:12px 0;
-    border-radius: 15px;
-    border:none;
-    outline:none;
-    font-size:1rem;
-    background: rgba(255,255,255,0.15);
-    color:#fff;
-    backdrop-filter: blur(5px);
-}
-input::placeholder { color:#ddd; }
-button {
-    width:100%;
-    padding:16px;
-    margin-top:15px;
-    border:none;
-    border-radius:15px;
-    font-size:1.2rem;
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
-    color:#fff;
-    cursor:pointer;
-    transition:0.4s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-button:hover {
-    transform: translateY(-3px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.5);
-}
-.add-stream {
-    margin-top:20px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    color:#fff;
-    font-weight:700;
-    font-size:1.1rem;
-    box-shadow:0 6px 20px rgba(0,0,0,0.3);
-}
-.add-stream:hover {
-    transform: translateY(-3px) scale(1.05);
-}
-.cpu-container {
-    width:100%;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 20px 0;
-    height: 25px;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-}
-.cpu-bar {
-    height:100%;
-    width:0%;
-    background: linear-gradient(90deg, #00ff99, #00bfa5);
-    transition: width 0.5s ease;
-}
-.cpu-text {
-    margin-top:5px;
-    font-weight:500;
-    color:#00ff99;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-}
-p.message { color:#fffa65; text-shadow:1px 1px 5px rgba(0,0,0,0.5); margin-top:15px; }
-@media(max-width:480px){
-    h2{font-size:1.6rem;}
-    input, button{font-size:1rem;padding:12px;}
-    .logo{width:60px;}
-}
-</style>
-</head>
-<body>
-
-<div class="container">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo" alt="Logo">
-    <h2>Ultra Stream Panel</h2>
-
-    <!-- شريط CPU حي -->
-    <div class="cpu-container">
-        <div class="cpu-bar" id="cpuBar"></div>
-    </div>
-    <div class="cpu-text" id="cpuText">استخدام CPU: 0%</div>
-
+    <!-- نموذج البث -->
     <form method="POST">
         <input type="text" name="m3u8" placeholder="رابط M3U8" required>
         <input type="text" name="key" placeholder="Facebook Stream Key" required>
@@ -396,23 +135,20 @@ p.message { color:#fffa65; text-shadow:1px 1px 5px rgba(0,0,0,0.5); margin-top:1
 </div>
 
 <script>
-// محاكاة CPU حي (يمكن تعديلها لبيانات حقيقية من السيرفر)
+// شريط CPU حي (رقم وهمي، يمكن ربطه بالباك اند)
 function updateCPU() {
     const cpuBar = document.getElementById('cpuBar');
     const cpuText = document.getElementById('cpuText');
-    const cpuPercent = Math.floor(Math.random() * 101); // رقم وهمي بين 0-100%
+    const cpuPercent = Math.floor(Math.random() * 101);
     cpuBar.style.width = cpuPercent + '%';
     cpuText.textContent = 'استخدام CPU: ' + cpuPercent + '%';
 }
-setInterval(updateCPU, 1500); // تحديث كل 1.5 ثانية
+setInterval(updateCPU, 1500);
 updateCPU();
 </script>
 
 </body>
-</html>    border-radius: 12px;
-        border: 3px solid transparent;
-        background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue)) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+</html>ing-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: destination-out;
         mask-composite: exclude;
         z-index: 1;
