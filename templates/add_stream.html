@@ -1,40 +1,213 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إضافة بث</title>
+<title>إضافة بث | تطبيق Streamer</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
+/* 1. إعدادات الجسم والخلفية */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    background: #f0f2f5; /* لون خلفية ناعم وخفيف */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin:0;
-    padding:20px;
+    margin: 0;
+    padding: 24px;
+    direction: rtl; /* دعم اللغة العربية */
 }
-.container {
+
+/* 2. حاوية البطاقة (الواجهة الرئيسية) */
+.card-container {
     background: white;
-    border-radius: 20px;
-    padding: 25px 20px;
+    border-radius: 16px; /* زوايا مستديرة أكثر وضوحًا */
+    padding: 30px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
-    text-align: center;
+    max-width: 420px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* ظل Material Design خفيف */
+    text-align: right; /* محاذاة النص لليمين للغة العربية */
+    transition: transform 0.3s ease-in-out;
 }
-.logo {
-    width: 50px;
+.card-container:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* تظليل عند التمرير */
+}
+
+/* 3. منطقة الرأس/الشعار */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.icon-box {
+    background-color: #0d47a1; /* أزرق داكن (Primary Dark) */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.icon-box .material-icons {
+    font-size: 32px;
+    color: white;
 }
 h2 {
-    color: #0b3d91;
+    color: #1a237e; /* أزرق داكن نايلي - لون جذاب */
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 1.8rem;
 }
-input {
+.cpu-status {
+    color: #757575; /* رمادي فاتح */
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* 4. حقول الإدخال (النموذج) */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 50px; /* مساحة للأيقونة على اليمين في تصميم RTL */
+    border-radius: 8px;
+    border: 1px solid #cfd8dc; /* إطار خفيف */
+    font-size: 1rem;
+    background-color: #fafafa;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    text-align: right;
+}
+.input-group input:focus {
+    border-color: #1e88e5; /* تلوين الإطار عند التركيز */
+    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+    outline: none;
+    background-color: white;
+}
+.input-group .material-icons {
+    position: absolute;
+    top: 50%;
+    right: 15px; /* وضع الأيقونة على اليمين في تصميم RTL */
+    transform: translateY(-50%);
+    color: #90a4ae;
+    font-size: 20px;
+    pointer-events: none; /* لمنع الأيقونة من تداخل النقرات */
+}
+/* تنسيق أيقونة الحقل الأول لتكون على اليسار */
+.input-group:nth-child(1) .material-icons {
+    right: auto;
+    left: 15px; /* وضع الأيقونة على اليسار */
+}
+.input-group input:nth-child(1) {
+     padding: 15px 50px 15px 15px; /* مساحة للأيقونة على اليسار */
+}
+
+
+/* 5. زر الإرسال */
+.submit-button {
+    padding: 15px;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #1e88e5; /* أزرق سماوي جذاب (Primary) */
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submit-button:hover {
+    background-color: #1565c0; /* لون أغمق عند التحويم */
+    box-shadow: 0 4px 10px rgba(30, 136, 229, 0.4);
+}
+.submit-button:active {
+    transform: scale(0.99); /* تأثير الضغط */
+}
+.submit-button .material-icons {
+    margin-left: 8px;
+    font-size: 1.4rem;
+}
+
+/* 6. رسالة التأكيد/الخطأ */
+.message-box {
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    word-break: break-word;
+    font-weight: 500;
+}
+.message-success {
+    background-color: #e8f5e9; /* خلفية خضراء فاتحة */
+    color: #388e3c; /* نص أخضر داكن */
+    border: 1px solid #a5d6a7;
+}
+
+/* 7. استجابة التصميم للأجهزة الصغيرة (Media Queries) */
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+    }
+    .card-container {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    h2 {
+        font-size: 1.6rem;
+    }
+    .input-group input, .submit-button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+</style>
+</head>
+<body>
+<div class="card-container">
+    <div class="header">
+        <div class="icon-box">
+            <span class="material-icons">stream</span> </div>
+        <h2>إضافة بث جديد</h2>
+        <p class="cpu-status">
+            حالة النظام: استخدام CPU الحالي: **{{ cpu_percent }}%**
+        </p>
+    </div>
+
+    <form method="POST">
+        <div class="input-group">
+            <input type="text" name="m3u8" placeholder="رابط M3U8 (مصدر الفيديو)" required>
+            <span class="material-icons">link</span>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="key" placeholder="مفتاح بث فيسبوك (Stream Key)" required>
+            <span class="material-icons">vpn_key</span>
+        </div>
+
+        <button type="submit" class="submit-button">
+            🚀 بدء البث
+            <span class="material-icons">send</span>
+        </button>
+    </form>
+
+    {% if message %}
+        <p class="message-box message-success">
+            {{ message }}
+        </p>
+    {% endif %}
+</div>
+</body>
+</html>input {
     width: 100%;
     padding: 12px 15px;
     margin: 10px 0;
