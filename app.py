@@ -1,54 +1,50 @@
-from flask import Flask, render_template, request
-from datetime import datetime
+from flask import Flask, render_template, request, redirect, session
 import subprocess
-import psutil
+import os
 
 app = Flask(__name__)
+app.secret_key = "WXCVBN1234"   # غيره
 
-# قائمة سجلات البث
-stream_logs = []
+PASSWORD = "1234"  # كلمة المرور للدخول للشيل
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    message = ""
+command_logs = []
 
-    if request.method == 'POST':
-        m3u8 = request.form.get('m3u8')
-        key = request.form.get('key')
+@app.route("/", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.form.get("password") == PASSWORD:
+            session["auth"] = True
+            return redirect("/shell")
+    return render_template("login.html")
 
-        # رابط RTMPS للفيسبوك
-        rtmps_url = f"rtmps://live-api-s.facebook.com:443/rtmp/{key}"
 
-        # وقت بداية البث
-        start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+@app.route("/shell", methods=["GET", "POST"])
+def shell():
+    if "auth" not in session:
+        return redirect("/")
 
-        # تشغيل FFmpeg
+    output = ""
+    if request.method == "POST":
+        command = request.form.get("command")
+
         try:
-            subprocess.Popen([
-                "ffmpeg",
-                "-i", m3u8,
-                "-c:v", "copy",
-                "-c:a", "aac",
-                "-f", "flv",
-                rtmps_url
-            ])
+            result = subprocess.check_output(
+                command, shell=True, stderr=subprocess.STDOUT, text=True
+            )
+            output = result
+        except subprocess.CalledProcessError as e:
+            output = e.output
 
-            # سجل البث
-            stream_logs.append({
-                "m3u8": m3u8,
-                "key": key,
-                "start_time": start_time,
-                "cpu": psutil.cpu_percent()
-            })
+        command_logs.append({"cmd": command, "out": output})
 
-            message = f"تم بدء البث في {start_time}"
-
-        except Exception as e:
-            message = f"خطأ أثناء بدء البث: {str(e)}"
-
-    cpu_percent = psutil.cpu_percent()
-    return render_template("add_stream.html", cpu_percent=cpu_percent, message=message, logs=stream_logs)
+    return render_template("shell.html", output=output, logs=command_logs)
 
 
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=8080)
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
