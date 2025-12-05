@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة بث</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin:0;
+    padding:20px;
+}
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px 20px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    text-align: center;
+}
+.logo {
+    width: 50px;
+    margin-bottom: 10px;
+}
+h2 {
+    color: #0b3d91;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+button {
+    padding: 14px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #0b3d91;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+button:hover { background-color: #082a63; }
+p { margin-top: 15px; font-size: 1rem; color: green; word-break: break-word; }
+p.cpu { color:#555; font-size:0.95rem; }
+@media(max-width:480px){
+    h2{font-size:1.5rem;}
+    .logo{width:40px;}
+    input, button{font-size:1rem;padding:10px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg" class="logo" alt="Logo">
+    <h2>إضافة بث جديد</h2>
+    <p class="cpu">استخدام CPU الحالي: {{ cpu_percent }}%</p>
+    <form method="POST">
+        <input type="text" name="m3u8" placeholder="رابط M3U8" required>
+        <input type="text" name="key" placeholder="Facebook Stream Key" required>
+        <button type="submit">🚀 بدء البث</button>
+    </form>
+    {% if message %}<p>{{ message }}</p>{% endif %}
+</div>
+</body>
+</html>
