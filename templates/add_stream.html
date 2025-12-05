@@ -6,35 +6,153 @@
 <title>Ultra Stream Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* Reset بسيط */
+/* Reset */
 * { box-sizing: border-box; margin:0; padding:0; }
+
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #1c1c1e, #2a2a2e);
+    background: #f0f2f5;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    color: #fff;
 }
 
 /* الحاوية */
 .container {
     width: 100%;
-    max-width: 450px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    border-radius: 25px;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-    padding: 30px 25px;
+    max-width: 400px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 25px 20px;
     text-align: center;
-    animation: fadeIn 1s ease forwards;
 }
-@keyframes fadeIn {
-    from { opacity:0; transform: translateY(-30px); }
-    to { opacity:1; transform: translateY(0); }
+
+/* الشعار */
+.logo {
+    width: 50px;
+    margin-bottom: 15px;
 }
+
+/* العنوان */
+h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* مدخلات النص */
+input {
+    width:100%;
+    padding:12px 15px;
+    margin:10px 0;
+    border-radius: 8px;
+    border:1px solid #ccc;
+    font-size:1rem;
+}
+
+/* الأزرار */
+button {
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    font-size:1.1rem;
+    background-color:#1a73e8;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover {
+    background-color:#155ab6;
+}
+
+/* زر إضافة بث */
+.add-stream {
+    margin-top:15px;
+    background-color:#34a853;
+}
+
+/* شريط CPU */
+.cpu-container {
+    width:100%;
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0 10px 0;
+    height: 20px;
+}
+.cpu-bar {
+    height:100%;
+    width:0%;
+    background-color:#1a73e8;
+    transition: width 0.5s ease;
+}
+.cpu-text {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+/* الرسائل */
+p.message {
+    margin-top:15px;
+    color: green;
+    word-break: break-word;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    h2{font-size:1.5rem;}
+    input, button{font-size:1rem; padding:10px;}
+    .logo{width:40px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo" alt="Logo">
+    <h2>Ultra Stream Panel</h2>
+
+    <!-- شريط CPU بسيط -->
+    <div class="cpu-text" id="cpuText">استخدام CPU: 0%</div>
+    <div class="cpu-container">
+        <div class="cpu-bar" id="cpuBar"></div>
+    </div>
+
+    <!-- النموذج -->
+    <form method="POST">
+        <input type="text" name="m3u8" placeholder="رابط M3U8" required>
+        <input type="text" name="key" placeholder="Facebook Stream Key" required>
+        <button type="submit">🚀 بدء البث</button>
+    </form>
+
+    {% if message %}<p class="message">{{ message }}</p>{% endif %}
+
+    <!-- زر إضافة بث -->
+    <button class="add-stream" onclick="window.location.href='/add-stream';">➕ إضافة بث جديد</button>
+</div>
+
+<script>
+// محاكاة CPU حي (يمكن تعديلها لبيانات حقيقية من السيرفر)
+function updateCPU() {
+    const cpuBar = document.getElementById('cpuBar');
+    const cpuText = document.getElementById('cpuText');
+    const cpuPercent = Math.floor(Math.random() * 101); // رقم وهمي بين 0-100%
+    cpuBar.style.width = cpuPercent + '%';
+    cpuText.textContent = 'استخدام CPU: ' + cpuPercent + '%';
+}
+setInterval(updateCPU, 1500); // تحديث كل 1.5 ثانية
+updateCPU();
+</script>
+
+</body>
+</html>}
 
 /* الشعار */
 .logo {
