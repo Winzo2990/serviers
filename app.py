@@ -8,12 +8,48 @@ HTML = """
 <html>
 <head>
     <title>Live Stream Restream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial; background:#ececec; padding:40px; }
-        .box { background:white; padding:25px; border-radius:10px; width:400px; margin:auto; }
-        input, button { width:100%; padding:12px; margin-top:12px; border-radius:6px; }
-        button { background:#007bff; color:white; border:none; }
-        h2 { text-align:center; }
+        body { 
+            font-family: Arial; 
+            background:#ececec; 
+            padding:20px; 
+            margin:0;
+        }
+        .box { 
+            background:white; 
+            padding:20px; 
+            border-radius:10px; 
+            max-width: 100%; 
+            width: 100%; 
+            margin:auto; 
+            box-sizing: border-box;
+        }
+        input, button { 
+            width:100%; 
+            padding:12px; 
+            margin-top:10px; 
+            border-radius:6px; 
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button { 
+            background:#007bff; 
+            color:white; 
+            border:none; 
+        }
+        h2 { 
+            text-align:center; 
+            font-size: 20px;
+        }
+
+        /* تحسينات للشاشات الصغيرة فقط */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .box { padding: 15px; }
+            input, button { padding: 10px; font-size: 14px; }
+            h2 { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
@@ -56,4 +92,4 @@ def index():
 
     return render_template_string(HTML)
 
-app.run(host="0.0.0.0", port=6080)
+app.run(host="0.0.0.0", port=6080) 
