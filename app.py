@@ -103,7 +103,7 @@ HTML = """
 <body>
     <div class="box">
         <h2>Panel Restream</h2>
-        <form method="POST">
+        <form method="POST" id="streamForm">
             <label>link Stream URL:</label>
             <input name="m3u8" placeholder="Enter Source link" required>
 
@@ -113,6 +113,12 @@ HTML = """
             <button type="submit">GO LIVE</button>
         </form>
     </div>
+
+    {% if success %}
+    <script>
+        alert("Streaming started successfully!");
+    </script>
+    {% endif %}
 </body>
 </html>
 """
@@ -136,7 +142,7 @@ def index():
 
         fb_url = f"rtmps://live-api-s.facebook.com:443/rtmp/{key}"
 
-        cmd = [
+        subprocess.Popen([
             "ffmpeg",
             "-re",
             "-i", m3u8,
@@ -144,10 +150,9 @@ def index():
             "-c:a", "copy",
             "-f", "flv",
             fb_url
-        ]
+        ])
 
-        subprocess.Popen(cmd)
-        return "Streaming started successfully!"
+        return render_template_string(HTML, success=True)
 
     return render_template_string(HTML)
 
