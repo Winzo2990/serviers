@@ -102,15 +102,15 @@ HTML = """
 </head>
 <body>
     <div class="box">
-        <h2>M3U8 → Facebook Live</h2>
+        <h2>Restream Facebook Live</h2>
         <form method="POST">
-            <label>M3U8 Stream URL:</label>
-            <input name="m3u8" placeholder="Enter m3u8 link" required>
+            <label>link Stream URL:</label>
+            <input name="Link URL" placeholder="Enter m3u8 link" required>
 
             <label>Facebook Stream Key:</label>
             <input name="key" placeholder="FB-xxxxxxxxxxxxx" required>
 
-            <button type="submit">Start Streaming</button>
+            <button type="submit">GO LIVE</button>
         </form>
     </div>
 </body>
