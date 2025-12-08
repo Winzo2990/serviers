@@ -98,6 +98,37 @@ HTML = """
             input, button { padding: 10px; font-size: 14px; }
             h2 { font-size: 18px; }
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .close-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background:#007bff;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -114,11 +145,23 @@ HTML = """
         </form>
     </div>
 
-    {% if success %}
+    <!-- Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <p>Streaming started successfully!</p>
+            <button class="close-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
     <script>
-        alert("Streaming started successfully!");
+        function closeModal() {
+            document.getElementById("successModal").style.display = "none";
+        }
+
+        {% if success %}
+            document.getElementById("successModal").style.display = "block";
+        {% endif %}
     </script>
-    {% endif %}
 </body>
 </html>
 """
@@ -156,4 +199,4 @@ def index():
 
     return render_template_string(HTML)
 
-app.run(host="0.0.0.0", port=6080) 
+app.run(host="0.0.0.0", port=6080)
