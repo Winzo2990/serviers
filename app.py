@@ -4,7 +4,7 @@ from flask import Flask, render_template_string, request, redirect, url_for
 app = Flask(__name__)
 
 PASSWORD = "556874"
-PANEL_NAME = "streamX"
+PANEL_NAME = "Panel streamX"
 
 LOGIN_HTML = """
 <!doctype html>
@@ -108,7 +108,7 @@ LOGIN_HTML = """
       {% endif %}
     </form>
 
-    <p class="footer">Mobile-friendly • Light/Dark mode</p>
+    <p class="footer">Panel streamX</p>
   </div>
 
 <script>
@@ -238,11 +238,11 @@ CONTROL_HTML = """
       <input name="key" type="password" placeholder="FB-xxxxxxxxxxxxxxxx" required>
 
       <div class="actions">
-        <button type="submit" class="btn-live">⚡ Start Stream</button>
+        <button type="submit" class="btn-live"> Start Stream</button>
       </div>
     </form>
 
-    <div class="small">Responsive • Light / Dark mode • Client-side CPU animation</div>
+    <div class="small">Panel stream RTMPS KEY GO LIVE</div>
   </div>
 
   <!-- Modal -->
