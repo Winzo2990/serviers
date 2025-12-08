@@ -12,20 +12,60 @@ LOGIN_HTML = """
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial; background:#ececec; padding:20px; margin:0; }
-        .box { background:white; padding:20px; border-radius:10px; max-width: 100%; width: 100%; margin:auto; box-sizing: border-box; }
-        input, button { width:100%; padding:12px; margin-top:10px; border-radius:6px; box-sizing: border-box; font-size:16px; }
-        button { background:#007bff; color:white; border:none; }
-        h2 { text-align:center; font-size:20px; }
+        body { 
+            font-family: Arial; 
+            background:#ececec; 
+            margin:0; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex-direction: column;
+        }
+        .server-status {
+            position: absolute;
+            top: 20px;
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+        }
+        .box { 
+            background:white; 
+            padding:25px; 
+            border-radius:10px; 
+            width: 90%; 
+            max-width: 400px; 
+            box-sizing: border-box;
+            text-align: center;
+        }
+        input, button { 
+            width:100%; 
+            padding:12px; 
+            margin-top:10px; 
+            border-radius:6px; 
+            box-sizing: border-box; 
+            font-size:16px;
+        }
+        button { 
+            background:#007bff; 
+            color:white; 
+            border:none; 
+        }
+        h2 { 
+            margin-bottom: 15px; 
+        }
+        p.error { color:red; margin-top:10px; }
+
         @media (max-width: 480px) {
-            body { padding: 10px; }
             .box { padding: 15px; }
             input, button { padding: 10px; font-size: 14px; }
             h2 { font-size: 18px; }
+            .server-status { font-size: 16px; }
         }
     </style>
 </head>
 <body>
+    <div class="server-status">Server Active</div>
     <div class="box">
         <h2>Enter Password to Access</h2>
         <form method="POST">
@@ -33,7 +73,7 @@ LOGIN_HTML = """
             <button type="submit">Login</button>
         </form>
         {% if error %}
-            <p style="color:red; text-align:center;">{{ error }}</p>
+            <p class="error">{{ error }}</p>
         {% endif %}
     </div>
 </body>
